@@ -11,6 +11,8 @@ import java.io.IOException;
 
 import com.amdocs.driving.simulator.data.InstructionRecordDataAccess;
 import com.amdocs.driving.simulator.data.RecordDataAccess;
+import com.amdocs.driving.simulator.validator.InstructionValidator;
+import com.amdocs.driving.simulator.validator.exception.InvalidInstructionException;
 
 /**
  * @author bmaturi
@@ -35,9 +37,14 @@ public class InstructionsRecordReader implements RecordReader {
                 if (line.isEmpty()) {
                     continue;
                 } else {
-                    dataAccess.addInstruction(line);
+                    line = line.toUpperCase().trim();
+                    try {
+                        InstructionValidator.isVaidInstruction(line);
+                        dataAccess.addInstruction(line);
+                    } catch (final InvalidInstructionException e) {
+                        System.err.println("Ignoring invalid instruction : " + line);
+                    }
                 }
-
             }
         } catch (final IOException e) {
             throw e;
@@ -49,7 +56,6 @@ public class InstructionsRecordReader implements RecordReader {
         if (file == null || !file.exists()) {
             throw new FileNotFoundException();
         }
-
     }
 
 }

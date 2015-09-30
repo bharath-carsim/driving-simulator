@@ -3,97 +3,42 @@
  */
 package com.amdocs.driving.simulator.execute;
 
-import com.amdocs.driving.simulator.constants.CONSTANTS;
-import com.amdocs.driving.simulator.data.Direction;
+import com.amdocs.driving.simulator.execute.exception.InitialPositionNotSetException;
 import com.amdocs.driving.simulator.execute.exception.OutOfGridException;
 
 /**
  * @author bmaturi
  */
-public class ExecuteInstruction {
-
-    private static final Position position = new Position();
+public interface ExecuteInstruction {
 
     /**
+     * Sets the initial position of the vehicle if the position is valid else ignores the setting.
+     *
      * @param X
      * @param Y
      * @param initialdirection
+     * @throws OutOfGridException
      */
-    public static void setInitialPosition(int xPosition, int yPosition, Direction initialdirection) {
-        position.setxPosition(xPosition);
-        position.setyPosition(yPosition);
-        position.setDirection(initialdirection);
-    }
+    public void setInitialPosition(Position initPosition) throws OutOfGridException;
 
     /**
+     * Changes the direction of the vehicle LEFT/RIGHT based on the current direction the vehicle is
+     * pointing to.
+     *
      * @param changeDirection
+     * @throws InitialPositionNotSetException
      */
-    public static void changeDirection(String leftOrRight) {
-
-        switch (leftOrRight) {
-            case CONSTANTS.TURN.LEFT:
-                switch (position.getDirection()) {
-                    case NORTH:
-                        position.setDirection(Direction.WEST);
-                        break;
-                    case SOUTH:
-                        position.setDirection(Direction.EAST);
-                        break;
-                    case WEST:
-                        position.setDirection(Direction.SOUTH);
-                        break;
-                    case EAST:
-                        position.setDirection(Direction.NORTH);
-                        break;
-                }
-                break;
-            case CONSTANTS.TURN.RIGHT:
-                switch (position.getDirection()) {
-                    case NORTH:
-                        position.setDirection(Direction.EAST);
-                        break;
-                    case SOUTH:
-                        position.setDirection(Direction.WEST);
-                        break;
-                    case WEST:
-                        position.setDirection(Direction.NORTH);
-                        break;
-                    case EAST:
-                        position.setDirection(Direction.SOUTH);
-                        break;
-                }
-                break;
-        }
-    }
+    public void changeDirection(String leftOrRight) throws InitialPositionNotSetException;
 
     /**
      * @throws OutOfGridException
+     * @throws InitialPositionNotSetException
      */
-    public static void move() throws OutOfGridException {
-        switch (position.getDirection()) {
-            case NORTH:
-            case SOUTH:
-                if (position.getyPosition() == (CONSTANTS.MAX_GRID.Y - 1)) {
-                    throw new OutOfGridException();
-                } else {
-                    position.moveY();
-                }
-                break;
-            case WEST:
-            case EAST:
-                if (position.getxPosition() == (CONSTANTS.MAX_GRID.X - 1)) {
-                    throw new OutOfGridException();
-                } else {
-                    position.moveX();
-                }
-                break;
-        }
-    }
+    public void move() throws OutOfGridException, InitialPositionNotSetException;
 
     /**
      * @return the current position
+     * @throws InitialPositionNotSetException
      */
-    public static String getPosition() {
-        return position.toString();
-    }
+    public String getPosition();
 }

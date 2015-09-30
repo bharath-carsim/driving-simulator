@@ -30,8 +30,8 @@ public class InstructionsRecordReaderTest {
         final RecordDataAccess dataAccess = new InstructionsRecordReader().read(new File(getClass().getResource(
                 "/instructions.txt").getFile()));
         assertNotNull(dataAccess);
-        assertEquals(30, dataAccess.getNumberOfRecords());
-        assertEquals("INIT <X>,<Y>,<F>", dataAccess.getNextInstruction());
+        assertEquals(12, dataAccess.getNumberOfRecords());
+        assertEquals("INIT 1,2,EAST", dataAccess.getNextInstruction());
         assertEquals("FORWARD", dataAccess.getNextInstruction());
     }
 }

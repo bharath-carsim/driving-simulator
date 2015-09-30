@@ -64,15 +64,15 @@ public class Position {
     /**
      *
      */
-    public void moveX() {
-        xPosition++;
+    public void moveX(int moveUnit) {
+        xPosition = xPosition + moveUnit;
     }
 
     /**
      *
      */
-    public void moveY() {
-        yPosition++;
+    public void moveY(int moveUnit) {
+        yPosition = yPosition + moveUnit;
     }
 
     @Override

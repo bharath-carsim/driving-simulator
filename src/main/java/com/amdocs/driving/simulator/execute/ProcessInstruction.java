@@ -22,7 +22,8 @@ public class ProcessInstruction {
     }
 
     /**
-     * Processes the given instruction by passing the responsibility to ExecuteInstruction
+     * Processes the given instruction by passing the responsibility to ExecuteInstruction Currently
+     * expected instructions : INIT <X>,<Y>,<F> FORWARD TURN_LEFT TURN_RIGHT GPS_REPORT
      *
      * @param instruction
      */
@@ -46,21 +47,14 @@ public class ProcessInstruction {
         }
     }
 
+    // At this stage the INIT instruction is already expected to be validated for the format
     private Position parseInitCommand(String instruction) {
-        Position position = null;
-        if (instruction.length() > 5) {
-            final String[] params = instruction.substring(5).split(",");
-            if (params == null || params.length == 3) {
-                position = new Position();
-                position.setxPosition(Integer.valueOf(params[0]));
-                position.setyPosition(Integer.valueOf(params[1]));
-                position.setDirection(Direction.fromValue(params[2]));
-            } else {
-                System.err.println("Invalid INIT command found : " + instruction);
-            }
-        } else {
-            System.err.println("Invalid INIT command found : " + instruction);
-        }
+        final String[] params = instruction.substring(5).split(",");
+        final Position position = new Position();
+        position.setxPosition(Integer.valueOf(params[0]));
+        position.setyPosition(Integer.valueOf(params[1]));
+        position.setDirection(Direction.fromValue(params[2]));
+
         return position;
     }
 

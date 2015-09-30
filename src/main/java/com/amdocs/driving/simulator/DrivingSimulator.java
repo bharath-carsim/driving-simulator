@@ -43,7 +43,6 @@ public class DrivingSimulator {
             scanner.close();
         } else if (args.length == 1) {
             final File dataFile = new File(args[0]);
-            // "/home/adminuser/bmaturi/code/coding-challenge/driving-simulator/src/test/resources/instructions.txt");
             if (!dataFile.exists()) {
                 final String message = "File does not exist. Please provide a valid input data file.";
                 throw new IllegalArgumentException(message);
